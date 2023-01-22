@@ -11,6 +11,7 @@ const characterRoutes = require('./routes/character-routes')
 const requestLogger = require('./lib/request-logger')
 const characterSeed = require('./lib/character-seed')
 const campaignRoutes = require('./routes/campaign-routes')
+const noteRoutes = require('./routes/note-routes')
 // 'Magic numbers' should always be declared at the top of the file and named in all caps
 const PORT = 8000
 
@@ -37,6 +38,7 @@ app.use(requestLogger)
 app.use(characterRoutes)
 app.use('/seed', characterSeed)
 app.use(campaignRoutes)
+app.use(noteRoutes)
 
 // To run the server you will always need `app.listen`
 // Listening on PORT 8000
