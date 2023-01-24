@@ -1,5 +1,6 @@
 // require mongoose
 const mongoose = require('mongoose')
+const noteSchema = require('./note')
 
 // Getting the Schema from Mongoose
 const Schema = mongoose.Schema
@@ -10,7 +11,8 @@ const campaignSchema = new Schema(
 		name: {
 			type: String,
 			required: true,
-		}
+		},
+		notes: [noteSchema]
 	},
 	{
 		timestamps: true,

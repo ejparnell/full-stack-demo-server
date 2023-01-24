@@ -4,13 +4,14 @@ const { handle404 } = require('../lib/custom-errors')
 
 // require the Model we just created
 const Campaign = require('../models/campaign')
+const { requireToken } = require('../config/auth')
 
 // Creating a router for us to make paths on
 const router = express.Router()
 
 // INDEX
 // GET /campaigns
-router.get('/campaigns', (req, res, next) => {
+router.get('/campaigns', requireToken, (req, res, next) => {
 	Campaign.find()
 		.then((campaigns) => {
 			return campaigns.map((campaign) => campaign)
@@ -21,7 +22,7 @@ router.get('/campaigns', (req, res, next) => {
 
 // SHOW
 // GET /campaigns/5a7db6c74d55bc51bdf39793
-router.get('/campaigns/:id', (req, res, next) => {
+router.get('/campaigns/:id', requireToken, (req, res, next) => {
 	// req.params.id will be set based on the `:id` in the route
 	Campaign.findById(req.params.id)
 		.then(handle404)
@@ -31,7 +32,7 @@ router.get('/campaigns/:id', (req, res, next) => {
 
 // CREATE
 // POST /campaigns
-router.post('/campaigns', (req, res, next) => {
+router.post('/campaigns', requireToken, (req, res, next) => {
 	Campaign.create(req.body.campaign)
 		.then((campaign) => {
 			res.status(201).json({ campaign: campaign })
@@ -41,7 +42,7 @@ router.post('/campaigns', (req, res, next) => {
 
 // UPDATE
 // PATCH /campaigns/5a7db6c74d55bc51bdf39793
-router.patch('/campaigns/:id', (req, res, next) => {
+router.patch('/campaigns/:id', requireToken, (req, res, next) => {
 	Campaign.findById(req.params.id)
 		.then(handle404)
 		.then((campaign) => {
@@ -53,7 +54,7 @@ router.patch('/campaigns/:id', (req, res, next) => {
 
 // DESTROY
 // DELETE /campaigns/5a7db6c74d55bc51bdf39793
-router.delete('/campaigns/:id', (req, res, next) => {
+router.delete('/campaigns/:id', requireToken, (req, res, next) => {
 	Campaign.findById(req.params.id)
 		.then(handle404)
 		.then((campaign) => {

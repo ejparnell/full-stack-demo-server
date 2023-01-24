@@ -4,13 +4,14 @@ const { handle404 } = require('../lib/custom-errors')
 
 // require the Model we just created
 const Character = require('../models/character')
+const { requireToken } = require('../config/auth')
 
 // Creating a router for us to make paths on
 const router = express.Router()
 
 // INDEX
 // GET /characters
-router.get('/characters', (req, res, next) => {
+router.get('/characters', requireToken, (req, res, next) => {
   Character.find()
 		.then((characters) => {
 			return characters.map((character) => character)
@@ -21,7 +22,7 @@ router.get('/characters', (req, res, next) => {
 
 // SHOW
 // GET /characters/5a7db6c74d55bc51bdf39793
-router.get('/characters/:id', (req, res, next) => {
+router.get('/characters/:id', requireToken, (req, res, next) => {
 	// req.params.id will be set based on the `:id` in the route
 	Character.findById(req.params.id)
 		.then(handle404)
@@ -31,7 +32,7 @@ router.get('/characters/:id', (req, res, next) => {
 
 // CREATE
 // POST /characters
-router.post('/characters', (req, res, next) => {
+router.post('/characters', requireToken, (req, res, next) => {
 
 	Character.create(req.body.character)
 		.then((character) => {
@@ -42,7 +43,7 @@ router.post('/characters', (req, res, next) => {
 
 // UPDATE
 // PATCH /characters/5a7db6c74d55bc51bdf39793
-router.patch('/characters/:id', (req, res, next) => {
+router.patch('/characters/:id', requireToken, (req, res, next) => {
 
 	Character.findById(req.params.id)
         .then(handle404)
@@ -55,7 +56,7 @@ router.patch('/characters/:id', (req, res, next) => {
 
 // DESTROY
 // DELETE /characters/5a7db6c74d55bc51bdf39793
-router.delete('/characters/:id', (req, res, next) => {
+router.delete('/characters/:id', requireToken, (req, res, next) => {
 	Character.findById(req.params.id)
 		.then(handle404)
 		.then((character) => {
