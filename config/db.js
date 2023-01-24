@@ -1,4 +1,4 @@
-const mongooseBaseName = 'test-dnd'
+const mongooseBaseName = 'full-stack-demo'
 
 const database = {
 	development: `mongodb://localhost/${mongooseBaseName}-development`,
